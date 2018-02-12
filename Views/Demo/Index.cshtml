@@ -1,0 +1,91 @@
+
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+@model PagingList<coreDemo.Entity.Student>
+
+
+<form asp-action="Index" method="get">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input name="filter" class="form-control" value="@Model.RouteValue["Filter"]" />
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Query" class="btn btn-default" />
+    </div>
+</form>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.SortableHeaderFor(model => model.Name)
+            </th>
+            <th>
+                @Html.SortableHeaderFor(model => model.Hight)
+            </th>
+            <th>
+                @Html.SortableHeaderFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.SortableHeaderFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Memo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassM.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(item.Photo))
+                    {
+                    <img src="~/Files/@item.Photo" height="50" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Memo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassM.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Sn">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Sn">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Sn">Delete</a>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+
+
+<nav aria-label="Products navigation example">
+    <vc:pager paging-list="@Model" />
+</nav>
