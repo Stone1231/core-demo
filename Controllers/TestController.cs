@@ -134,7 +134,7 @@ namespace coreDemo.Controllers
             if (!string.IsNullOrWhiteSpace(model.ClassId))
             {
                 var list = _context.Students
-                    .Where(m => m.ClassId.ToString() == model.ClassId)
+                    .Where(m => m.ClassId == model.ClassId)
                     .Select(s => new SelectListItem
                     {
                         Value = s.Sn.ToString(),

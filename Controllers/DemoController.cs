@@ -24,28 +24,36 @@ namespace coreDemo.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        private String Query { 
-            get{
-                return TempData["query"] == null ? "" :TempData["query"].ToString();
+        private String Query
+        {
+            get
+            {
+                return TempData["query"] == null ? "" : TempData["query"].ToString();
             }
-            set{
+            set
+            {
                 TempData["query"] = value;
             }
         }
 
-        private RedirectToActionResult IndexAction() {
+        private RedirectToActionResult IndexAction()
+        {
             RouteValueDictionary rv = new RouteValueDictionary();
             var qs = Query.Replace("?", "").Split('&');
             foreach (var q in qs)
             {
                 var strs = q.Split('=');
-                rv.Add(strs[0], strs[1]);
+                if (strs.Length == 2)
+                {
+                    rv.Add(strs[0], strs[1]);
+                }
             }
 
             return RedirectToAction(nameof(Index), rv);
         }
 
-        private void BackupQuery() {
+        private void BackupQuery()
+        {
             Query = Query;
         }
 
@@ -140,7 +148,7 @@ namespace coreDemo.Controllers
 
                 _context.Add(student);
                 await _context.SaveChangesAsync();
-                
+
                 return IndexAction();
                 //return RedirectToAction(nameof(Index));
             }
@@ -222,7 +230,7 @@ namespace coreDemo.Controllers
                         throw;
                     }
                 }
-                
+
                 return IndexAction();
                 //return RedirectToAction(nameof(Index));
             }
@@ -269,7 +277,8 @@ namespace coreDemo.Controllers
             return _context.Students.Any(e => e.Sn == id);
         }
 
-        public async Task<IActionResult> Back() {
+        public async Task<IActionResult> Back()
+        {
 
             return IndexAction();
         }
